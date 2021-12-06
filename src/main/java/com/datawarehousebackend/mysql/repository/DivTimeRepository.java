@@ -21,7 +21,7 @@ public interface DivTimeRepository extends JpaRepository<DivTimeEntity, Integer>
 
     // sql根据year查询所有的timeKey
     @Query("select timeKey from DivTimeEntity where year = :year")
-    List<Integer> findAllTimeKeyByYear(@Param("year")Short year);
+    List<Integer> findAllTimeKeyByYear(@Param("year") Short year);
 
     // sql根据month查询所有的timeKey
     @Query("select timeKey from DivTimeEntity where month = :month")
@@ -36,6 +36,20 @@ public interface DivTimeRepository extends JpaRepository<DivTimeEntity, Integer>
     @Query("select timeKey from DivTimeEntity where weekday = :weekday")
     List<Integer> findAllTimeKeyByWeekday(@Param("weekday") Byte weekday);
 
+    @Query("select timeKey from DivTimeEntity where year = :year and month = :month")
+    List<Integer> findAllTimeKeyByYearAndMonth(@Param("year") Short year, @Param("month") Byte month);
+
+    @Query("select timeKey from DivTimeEntity where year = :year and day = :day")
+    List<Integer> findAllTimeKeyByYearAndDay(@Param("year") Short year, @Param("day") Byte day);
+
+    @Query("select timeKey from DivTimeEntity where month = :month and day = :day")
+    List<Integer> findAllTimeKeyByMonthAndDay(@Param("month") Byte month, @Param("day") Byte day);
+
+    @Query("select  timeKey from DivTimeEntity where year = :year and month = :month and day = :day")
+    List<Integer> findAllTimeKeyByYearAndMonthAndDay(@Param("year") Short year, @Param("month") Byte month, @Param("day") Byte day);
+
+    @Query("select timeKey from DivTimeEntity where year = :year and quarter = :quarter")
+    List<Integer> findAllTimeKeyByYearAndQuarter(@Param("year") Short year, @Param("quarter") Byte quarter);
 
 
 }
