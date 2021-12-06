@@ -48,60 +48,72 @@ public class WithTimeController {
     @Operation(summary = "通过year来查询电影信息")
     @GetMapping("year/{year}")
     public List<FactMovieEntity> getByYear(@PathVariable Short year) {
-        // 根据年来找到timekey列表
-        List<Integer> timeKeyList = divTimeRepository.findAllTimeKeyByYear(year);
-        System.out.println(timeKeyList);
-        List<FactMovieEntity> factMovieEntityList = new ArrayList<>();
-        for (Integer timeKey : timeKeyList) {
-            // 对于每一个timekey，查找到对应的年
-            factMovieEntityList.addAll(factMovieRepository.findAllByTimeKey(timeKey));
-        }
-        return factMovieEntityList;
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByYear(year));
     }
 
     @Operation(summary = "通过month来查询电影")
     @GetMapping("month/{month}")
     public List<FactMovieEntity> getByMonth(@PathVariable Byte month) {
-        List<Integer> timeKeyList = divTimeRepository.findAllTimeKeyByMonth(month);
-        List<FactMovieEntity> factMovieEntityList = new ArrayList<>();
-        for (Integer timeKey: timeKeyList) {
-            factMovieEntityList.addAll(factMovieRepository.findAllByTimeKey(timeKey));
-        }
-        return factMovieEntityList;
-    }
-
-    @Operation(summary = "通过quarter来查询电影")
-    @GetMapping("quarter/{quarter}")
-    public List<FactMovieEntity> getByQuarter(@PathVariable Byte quarter) {
-        List<Integer> timeKeyList = divTimeRepository.findAllTimeKeyByQuarter(quarter);
-        List<FactMovieEntity> factMovieEntityList = new ArrayList<>();
-        for (Integer timeKey: timeKeyList) {
-            factMovieEntityList.addAll(factMovieRepository.findAllByTimeKey(timeKey));
-        }
-        return factMovieEntityList;
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByMonth(month));
     }
 
 
     @Operation(summary = "通过day来查询电影")
     @GetMapping("day/{day}")
     public List<FactMovieEntity> getByDay(@PathVariable Byte day) {
-        List<Integer> timeKeyList = divTimeRepository.findAllTimeKeyByDay(day);
-        List<FactMovieEntity> factMovieEntityList = new ArrayList<>();
-        for (Integer timeKey: timeKeyList) {
-            factMovieEntityList.addAll(factMovieRepository.findAllByTimeKey(timeKey));
-        }
-        return factMovieEntityList;
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByDay(day));
+    }
+
+    @Operation(summary = "通过quarter来查询电影")
+    @GetMapping("quarter/{quarter}")
+    public List<FactMovieEntity> getByQuarter(@PathVariable Byte quarter) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByQuarter(quarter));
     }
 
     @Operation(summary = "通过weekday来查询电影")
     @GetMapping("weekday/{weekday}")
     public List<FactMovieEntity> getByWeekDay(@PathVariable Byte weekday) {
-        List<Integer> timeKeyList = divTimeRepository.findAllTimeKeyByWeekday(weekday);
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByWeekday(weekday));
+    }
+
+    @Operation(summary = "通过year和month来查询电影")
+    @GetMapping("year-and-month")
+    public List<FactMovieEntity> getByYearAndMonth(@Param("year") Short year, @Param("month") Byte month) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByYearAndMonth(year, month));
+    }
+
+    @Operation(summary = "通过year和day来查询电影")
+    @GetMapping("year-and-day")
+    public List<FactMovieEntity> getByYearAndDay(@Param("year") Short year, @Param("day") Byte day) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByYearAndDay(year, day));
+    }
+
+    @Operation(summary = "通过month和day来查询电影")
+    @GetMapping("month-and-day")
+    public List<FactMovieEntity> getByMonthAndDay(@Param("month") Byte month, @Param("day") Byte day) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByMonthAndDay(month, day));
+    }
+
+    @Operation(summary = "通过year和month和day来查询电影")
+    @GetMapping("year-and-month-day")
+    public List<FactMovieEntity> getByYearAndMonthAndDay(@Param("year") Short year, @Param("month") Byte month, @Param("day") Byte day) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByYearAndMonthAndDay(year, month, day));
+    }
+
+    @Operation(summary = "通过year和quarter来查询电影")
+    @GetMapping("year-and-quarter")
+    public List<FactMovieEntity> getByYearAndQuarter(@Param("year") Short year, @Param("quarter") Byte quarter) {
+        return findAllMoviesByTimeKeyList(divTimeRepository.findAllTimeKeyByYearAndQuarter(year, quarter));
+    }
+
+    // 根据timeKeyList获取电影列表
+    private List<FactMovieEntity> findAllMoviesByTimeKeyList(List<Integer> timeKeyList) {
         List<FactMovieEntity> factMovieEntityList = new ArrayList<>();
-        for (Integer timeKey: timeKeyList) {
+        for (Integer timeKey : timeKeyList) {
             factMovieEntityList.addAll(factMovieRepository.findAllByTimeKey(timeKey));
         }
         return factMovieEntityList;
     }
+
 
 }
