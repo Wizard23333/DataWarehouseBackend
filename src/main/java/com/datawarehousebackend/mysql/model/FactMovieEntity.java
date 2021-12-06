@@ -13,6 +13,9 @@ public class FactMovieEntity {
     private Double reviewPoint;
     private String directorsName;
     private String actorsName;
+    private Integer movieSeriesId;
+    private Integer timeKey;
+    private Integer styleKey;
 
     @Id
     @Column(name = "asin")
@@ -95,5 +98,35 @@ public class FactMovieEntity {
     @Override
     public int hashCode() {
         return Objects.hash(asin, title, productVersion, imdbScore, reviewPoint, directorsName, actorsName);
+    }
+
+    @Basic
+    @Column(name = "movie_series_id")
+    public Integer getMovieSeriesId() {
+        return movieSeriesId;
+    }
+
+    public void setMovieSeriesId(Integer movieSeriesId) {
+        this.movieSeriesId = movieSeriesId;
+    }
+
+    @Basic
+    @Column(name = "time_key")
+    public Integer getTimeKey() {
+        return timeKey;
+    }
+
+    public void setTimeKey(Integer timeKey) {
+        this.timeKey = timeKey;
+    }
+
+    @Basic
+    @Column(name = "style_key")
+    public Integer getStyleKey() {
+        return styleKey;
+    }
+
+    public void setStyleKey(Integer styleKey) {
+        this.styleKey = styleKey;
     }
 }
