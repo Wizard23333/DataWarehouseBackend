@@ -13,6 +13,7 @@ public class DivTimeEntity {
     private Byte quarter;
     private Byte weekday;
 
+
     @Id
     @Column(name = "time_key")
     public int getTimeKey() {
@@ -85,4 +86,6 @@ public class DivTimeEntity {
     public int hashCode() {
         return Objects.hash(timeKey, year, month, day, quarter, weekday);
     }
+
+
 }
