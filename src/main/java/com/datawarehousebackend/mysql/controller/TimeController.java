@@ -5,26 +5,22 @@ import com.datawarehousebackend.mysql.model.FactMovieEntity;
 import com.datawarehousebackend.mysql.repository.DivTimeRepository;
 import com.datawarehousebackend.mysql.repository.FactMovieRepository;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.security.auth.callback.TextInputCallback;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 // 采用相关时间参数来访问的接口
 @RestController
 @RequestMapping("api/time")
 @Api(tags = "时间参数接口")
-public class WithTimeController {
-
+public class TimeController {
     @Resource
     DivTimeRepository divTimeRepository;
     @Resource
@@ -114,6 +110,5 @@ public class WithTimeController {
         }
         return factMovieEntityList;
     }
-
 
 }
