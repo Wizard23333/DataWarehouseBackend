@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DivActorRepository extends JpaRepository<DivActorEntity, DivActorEntityPK> {
 
-    @Query("select movieName from DivActorEntity where actorName = :actorName")
-    List<String> findAllMovieNameByActorName(@Param("actorName") String actorName);
+    @Query(value = "select movie_name from div_actor where actor_name = :actorName", nativeQuery = true)
+    List<Map<String, Object>> findAllMovieNameByActorName(@Param("actorName") String actorName);
 
-    @Query("select actorName from DivActorEntity where actorName like %:actorName%")
-    List<String> findAllFuzzyActorNameByActorName(@Param("actorName") String actorName);
+    @Query(value = "select actor_name from div_actor where actor_name like %:actorName%", nativeQuery = true)
+    List<Map<String, Object>> findAllFuzzyActorNameByActorName(@Param("actorName") String actorName);
 }
