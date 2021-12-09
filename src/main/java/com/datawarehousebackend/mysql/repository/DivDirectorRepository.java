@@ -20,4 +20,9 @@ public interface DivDirectorRepository extends JpaRepository<DivDirectorEntity, 
 
     DivDirectorEntity findByDirectorId(Integer directorId);
 
+    @Query("select directorId from DivDirectorEntity")
+    List<Integer> findAllDirectorId();
+
+
+
 }
