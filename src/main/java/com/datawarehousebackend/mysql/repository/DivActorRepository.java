@@ -18,4 +18,7 @@ public interface DivActorRepository extends JpaRepository<DivActorEntity, DivAct
     List<Map<String, Object>> findAllFuzzyActorNameByActorName(@Param("actorName") String actorName);
 
     DivActorEntity findByActorId(Integer actorId);
+
+    @Query("select actorId from DivActorEntity")
+    List<Integer> findAllActorId();
 }

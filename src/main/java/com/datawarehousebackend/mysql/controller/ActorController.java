@@ -48,6 +48,31 @@ public class ActorController {
     @Operation(summary = "通过actorId查询经常合作的演员")
     @GetMapping("cooperate-actor/{actorId}")
     public ResponseEntity<Object> getCooperateActorByActorId(@PathVariable Integer actorId) {
+        List<ActorIdAndNameAndCopTime> returnList = getCooperateActorByActorIdApi(actorId);
+        System.out.println(returnList);
+        returnList.sort(Comparator.reverseOrder());
+        if (returnList.size() < 11) {
+            return new ResponseEntity<>(returnList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(returnList.subList(0, 10), HttpStatus.OK);
+        }
+    }
+
+    @Operation(summary = "通过actorId查询经常合作的导演")
+    @GetMapping("cooperate-director/{actorId}")
+    public ResponseEntity<Object> getCooperateDirectorByActorId(@PathVariable Integer actorId) {
+        List<DirectorIdAndNameAndCopTime> returnList = getCooperateDirectorByActorIdApi(actorId);
+        System.out.println(returnList);
+        returnList.sort(Comparator.reverseOrder()); // 降序排列
+        // 截取前十个
+        if (returnList.size() < 11) {
+            return new ResponseEntity<>(returnList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(returnList.subList(0, 10), HttpStatus.OK);
+        }
+    }
+
+    public List<ActorIdAndNameAndCopTime> getCooperateActorByActorIdApi(Integer actorId) {
         List<String> asinList = bridgeActEntityRepository.findAllAsinByActorId(actorId);
         List<Integer> actorIdList = new ArrayList<>();
         for (String item : asinList) {
@@ -55,18 +80,6 @@ public class ActorController {
         }
         actorIdList.sort(Comparator.naturalOrder());
         System.out.println(actorIdList);
-
-        @Data
-        class ActorIdAndNameAndCopTime implements Comparable<ActorIdAndNameAndCopTime> {
-            Integer actorId;
-            String actorName;
-            Integer CopTime;
-
-            @Override
-            public int compareTo(ActorIdAndNameAndCopTime o) {
-                return this.CopTime - o.CopTime;
-            }
-        }
         List<ActorIdAndNameAndCopTime> returnList = new ArrayList<>();
         for (int i = 0; i < actorIdList.size(); i++) {
             if (!actorIdList.get(i).equals(actorId)) {
@@ -84,18 +97,10 @@ public class ActorController {
                 }
             }
         }
-        System.out.println(returnList);
-        returnList.sort(Comparator.reverseOrder());
-        if (returnList.size() < 11) {
-            return new ResponseEntity<>(returnList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(returnList.subList(0, 10), HttpStatus.OK);
-        }
+        return returnList;
     }
 
-    @Operation(summary = "通过actorId查询经常合作的导演")
-    @GetMapping("cooperate-director/{actorId}")
-    public ResponseEntity<Object> getCooperateDirectorByActorId(@PathVariable Integer actorId) {
+    public List<DirectorIdAndNameAndCopTime> getCooperateDirectorByActorIdApi(Integer actorId) {
         List<String> asinList = bridgeActEntityRepository.findAllAsinByActorId(actorId);
         List<Integer> directorIdList = new ArrayList<>();
         for (String item : asinList) {
@@ -103,17 +108,7 @@ public class ActorController {
         }
         directorIdList.sort(Comparator.naturalOrder());
         System.out.println(directorIdList);
-        @Data
-        class DirectorIdAndNameAndCopTime implements Comparable<DirectorIdAndNameAndCopTime> {
-            Integer directorId;
-            String directorName;
-            Integer CopTime;
 
-            @Override
-            public int compareTo(DirectorIdAndNameAndCopTime o) {
-                return this.CopTime - o.CopTime;
-            }
-        }
         List<DirectorIdAndNameAndCopTime> returnList = new ArrayList<>();
         for (int i = 0; i < directorIdList.size(); i++) {
             if (i == 0 || !directorIdList.get(i).equals(directorIdList.get(i - 1))) {
@@ -130,13 +125,30 @@ public class ActorController {
                 returnList.set(length - 1, lastItem);
             }
         }
-        System.out.println(returnList);
-        returnList.sort(Comparator.reverseOrder()); // 降序排列
-        // 截取前十个
-        if (returnList.size() < 11) {
-            return new ResponseEntity<>(returnList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(returnList.subList(0, 10), HttpStatus.OK);
+        return returnList;
+    }
+
+    @Data
+    public class ActorIdAndNameAndCopTime implements Comparable<ActorIdAndNameAndCopTime> {
+        Integer actorId;
+        String actorName;
+        Integer CopTime;
+
+        @Override
+        public int compareTo(ActorIdAndNameAndCopTime o) {
+            return this.CopTime - o.CopTime;
+        }
+    }
+
+    @Data
+    public class DirectorIdAndNameAndCopTime implements Comparable<DirectorIdAndNameAndCopTime> {
+        Integer directorId;
+        String directorName;
+        Integer CopTime;
+
+        @Override
+        public int compareTo(DirectorIdAndNameAndCopTime o) {
+            return this.CopTime - o.CopTime;
         }
     }
 
