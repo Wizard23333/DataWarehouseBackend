@@ -11,11 +11,13 @@ import java.util.Map;
 
 public interface DivDirectorRepository extends JpaRepository<DivDirectorEntity, DivDirectorEntityPK> {
 
-    @Query(value = "select movie_name from div_director where director_name = :directorName",nativeQuery = true)
-    List<Map<String, Object>>  findAllMovieNameByDirectorName(@Param("directorName") String directorName);
+    @Query(value = "select movie_name from div_director where director_id = :directorId",nativeQuery = true)
+    List<Map<String, Object>>  findAllMovieNameByDirectorName(@Param("directorId") Integer directorId);
 
     // 使用原生sql查询
     @Query(value = "select director_id, director_name from div_director where director_name like %:directorName%", nativeQuery = true)
     List<Map<String, Object>> findAllFuzzyDirectorNameByDirectorName(@Param("directorName") String directorName);
+
+    DivDirectorEntity findByDirectorId(Integer directorId);
 
 }
