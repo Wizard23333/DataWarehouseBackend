@@ -14,6 +14,7 @@ public class DivReviewEntity {
     private String date;
     private String summary;
     private String text;
+    private String asin;
 
     @Id
     @Column(name = "review_id")
@@ -106,5 +107,15 @@ public class DivReviewEntity {
     @Override
     public int hashCode() {
         return Objects.hash(reviewId, reviewerName, helpfulNum, score, sentiment, date, summary, text);
+    }
+
+    @Basic
+    @Column(name = "asin")
+    public String getAsin() {
+        return asin;
+    }
+
+    public void setAsin(String asin) {
+        this.asin = asin;
     }
 }
