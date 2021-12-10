@@ -17,6 +17,8 @@ public interface DivTimeRepository extends JpaRepository<DivTimeEntity, Integer>
     @Override
     List<DivTimeEntity> findAllById(Iterable<Integer> integers);
 
+    DivTimeEntity findByTimeKey(Integer timeKey);
+
     List<DivTimeEntity> findAllByYear(short year);
 
     // sql根据year查询所有的timeKey
