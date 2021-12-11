@@ -4,8 +4,11 @@ import com.datawarehousebackend.mysql.model.FactMovieEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FactMovieRepository extends JpaRepository<FactMovieEntity, String>, JpaSpecificationExecutor<FactMovieEntity> {
     @Override
@@ -18,6 +21,9 @@ public interface FactMovieRepository extends JpaRepository<FactMovieEntity, Stri
     List<FactMovieEntity> findAllByTitle(String title);
     // 通过电影名模糊查询
     List<FactMovieEntity> findAllByTitleContaining(String title);
+
+    @Query("select count(asin) from FactMovieEntity where imdbScore >= :score")
+    Integer findMovieNumByMoreThanScore(@Param("score") Double score);
 
 
 
