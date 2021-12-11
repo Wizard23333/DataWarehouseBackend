@@ -1,13 +1,11 @@
 package com.datawarehousebackend.mysql.controller;
 
 
-import com.datawarehousebackend.mysql.repository.BridgeActEntityRepository;
-import com.datawarehousebackend.mysql.repository.BridgeDirectEntityRepository;
-import com.datawarehousebackend.mysql.repository.DivActorRepository;
-import com.datawarehousebackend.mysql.repository.DivDirectorRepository;
+import com.datawarehousebackend.mysql.repository.*;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.Data;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +30,59 @@ public class CooperateController {
     DivDirectorRepository divDirectorRepository;
     @Resource
     BridgeDirectEntityRepository bridgeDirectEntityRepository;
+    @Resource
+    FactMovieRepository factMovieRepository;
+
+    @Operation(summary = "通过两个id查询合作过电影的asin和平均分(type参数 1表示导演 2表示演员)")
+    @GetMapping("cooperate-points")
+    public ResponseEntity<Object> getCooperatePoints(@Param("id1") int id1, @Param("type1") int type1, @Param("id2") int id2, @Param("type2") int type2) {
+        List<String> asinList1 = new LinkedList<>();
+        List<String> asinList2 = new LinkedList<>();
+        if (type1 == 1) {
+            asinList1.addAll(bridgeDirectEntityRepository.findAllAsinByDirectorId(id1));
+        } else {
+            asinList1.addAll(bridgeActEntityRepository.findAllAsinByActorId(id1));
+        }
+        if (type2 == 1) {
+            asinList2.addAll(bridgeDirectEntityRepository.findAllAsinByDirectorId(id2));
+        } else {
+            asinList2.addAll(bridgeActEntityRepository.findAllAsinByActorId(id2));
+        }
+
+        asinList1.sort(Comparator.naturalOrder());
+        asinList2.sort(Comparator.naturalOrder());
+        asinList1.retainAll(asinList2); // 求交集
+
+        @Data
+        class AsinAndPoints {
+            List<String> asinList;
+            Double avgPoints;
+            {
+                asinList = new LinkedList<>();
+            }
+
+            public void setArgs(List<String> asinList, Double avgPoints) {
+                this.asinList.addAll(asinList);
+                this.avgPoints = avgPoints;
+            }
+        }
+        List<Double> pointList = new ArrayList<>();
+        for (String item : asinList1) {
+            pointList.add(factMovieRepository.findAllByAsin(item).getImdbScore());
+        }
+        System.out.println(pointList);
+        Double avg = 0D; // 平均值
+        for (Double val : pointList) {
+            avg += val;
+        }
+        avg = avg / pointList.size();
+
+        AsinAndPoints asinAndPoints = new AsinAndPoints();
+        asinAndPoints.setArgs(asinList1, avg);
+
+        return new ResponseEntity<>(asinAndPoints, HttpStatus.OK);
+
+    }
 
     @Operation(summary = "top100经常合作的导演和导演")
     @GetMapping("director-director-top100")
@@ -98,6 +149,7 @@ public class CooperateController {
         }
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
+
     @Operation(summary = "top100经常合作的导演和演员")
     @GetMapping("director-actor-top100")
     public ResponseEntity<Object> getTop100DirectorActor() {
@@ -127,8 +179,6 @@ public class CooperateController {
         }
         return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
-
-
 
     public List<DirectorIdAndNameAndCopTime> getCooperateDirectorByDirectorIdApi(Integer directorId) {
         List<String> asinList = bridgeDirectEntityRepository.findAllAsinByDirectorId(directorId); // 找到导演的电影的asin
