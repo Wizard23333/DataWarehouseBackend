@@ -42,5 +42,10 @@ public class MiscController {
         return new ResponseEntity<>(Map.of("number",factMovieRepository.findMovieNumByMoreThanScore(score)) , HttpStatus.OK);
     }
 
+    @Operation(summary = "查询大于等于某个有帮助人数的电影数量")
+    @GetMapping("movie-num-more-than-helpnum/{helpfulNum}")
+    public ResponseEntity<Object> getMovieNumByMoreThanHelpfulNum(@PathVariable Integer helpfulNum) {
+        return new ResponseEntity<>(Map.of("number", factMovieRepository.findMovieNumByHelpfulNum(helpfulNum)), HttpStatus.OK);
+    }
 
 }

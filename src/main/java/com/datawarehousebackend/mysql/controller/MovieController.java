@@ -51,7 +51,7 @@ public class MovieController {
     public ResponseEntity<Object> getCompleteInfoByAsin(@PathVariable String asin) {
         CompleteMovieInfo completeMovieInfo = new CompleteMovieInfo();
 
-        FactMovieEntity factMovieEntity = factMovieRepository.findAllByAsin(asin);
+        FactMovieEntity factMovieEntity = factMovieRepository.findByAsin(asin);
         DivTimeEntity divTimeEntity = divTimeRepository.findByTimeKey(factMovieEntity.getTimeKey());
         List<DivReviewEntity> divReviewEntityList = new ArrayList<>();
         divReviewEntityList.addAll(divReviewEntityRepository.findAllByAsin(factMovieEntity.getAsin()));

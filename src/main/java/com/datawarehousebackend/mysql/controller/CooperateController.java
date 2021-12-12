@@ -68,7 +68,7 @@ public class CooperateController {
         }
         List<Double> pointList = new ArrayList<>();
         for (String item : asinList1) {
-            pointList.add(factMovieRepository.findAllByAsin(item).getImdbScore());
+            pointList.add(factMovieRepository.findByAsin(item).getImdbScore());
         }
         System.out.println(pointList);
         Double avg = 0D; // 平均值
