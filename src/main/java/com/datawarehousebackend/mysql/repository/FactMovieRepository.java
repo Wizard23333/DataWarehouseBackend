@@ -14,7 +14,7 @@ public interface FactMovieRepository extends JpaRepository<FactMovieEntity, Stri
     @Override
     List<FactMovieEntity> findAllById(Iterable<String> strings);
     // 通过asin查找
-    FactMovieEntity findAllByAsin(String asin);
+    FactMovieEntity findByAsin(String asin);
     // 通过timeKey列表查找
     List<FactMovieEntity> findAllByTimeKey(Integer timeKey);
     // 通过电影名称来查找 精确匹配
@@ -25,7 +25,8 @@ public interface FactMovieRepository extends JpaRepository<FactMovieEntity, Stri
     @Query("select count(asin) from FactMovieEntity where imdbScore >= :score")
     Integer findMovieNumByMoreThanScore(@Param("score") Double score);
 
-
+    @Query(nativeQuery = true, value = "select count(asin) from fact_movie where (select sum(helpful_num) from div_review where asin = fact_movie.asin) >= :helpfulNum")
+    Integer findMovieNumByHelpfulNum(@Param("helpfulNum") Integer helpfulNum);
 
 
 }
