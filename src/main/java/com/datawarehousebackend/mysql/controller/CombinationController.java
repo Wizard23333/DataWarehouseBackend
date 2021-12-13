@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/combination")
@@ -116,12 +119,18 @@ public class CombinationController {
         List<FactMovieEntity> movieList = factMovieRepository.findByStyleKey(
                 divStyleEntityRepository.findByStyleName(styleName).getStyleKey() // 查找到styleKey
         );
-        for(FactMovieEntity entity : movieList) {
-            avgMovieSentiment.add(
-                    divReviewEntityRepository.findAvgSentimentByAsin(entity.getAsin()) // 查询每个电影的情感平均分
-            );
+        Double sum = 0.0;
+        int count = 0; // 计算无效的电影数量
+        for (FactMovieEntity entity : movieList) {
+            try {
+                sum += divReviewEntityRepository.findAvgSentimentByAsin(entity.getAsin()); // 查询每个电影的情感平均分
+            } catch (NullPointerException exception) {
+                System.out.println(exception);
+                count++;
+                continue;
+            }
         }
-        Double avgSentiment = avgMovieSentiment.stream().mapToDouble(a -> a).average().orElse(0.0);
+        Double avgSentiment = sum / (movieList.size() - count);
         return new ResponseEntity<>(Map.of("avg", avgSentiment), HttpStatus.OK);
     }
 }
