@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/movie")
@@ -44,6 +45,12 @@ public class MovieController {
     @GetMapping("fuzzy-title/{title}")
     public List<FactMovieEntity> getByFuzzyTitle(@PathVariable String title) {
         return factMovieRepository.findAllByTitleContaining(title);
+    }
+
+    @Operation(summary = "通过asin查询电影图片链接")
+    @GetMapping("pic-url/{asin}")
+    public ResponseEntity<Object> getPicUrlByAsin(@PathVariable String asin) {
+        return new ResponseEntity<>(Map.of("url", factMovieRepository.findByAsin(asin).getMoviePic()), HttpStatus.OK);
     }
 
     @Operation(summary = "通过asin查询电影详细信息")
@@ -73,6 +80,7 @@ public class MovieController {
         private Double reviewPoint;
         private String directorsName;
         private String actorsName;
+        private String moviePic;
 
         private DateTime dateTime;
         private String styleName;
@@ -101,6 +109,7 @@ public class MovieController {
             this.reviewPoint = factMovieEntity.getReviewPoint();
             this.directorsName = factMovieEntity.getDirectorsName();
             this.actorsName = factMovieEntity.getActorsName();
+            this.moviePic = factMovieEntity.getMoviePic();
         }
     }
 
