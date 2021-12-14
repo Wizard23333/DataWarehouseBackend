@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@RelationshipEntity(type = "Cooperate_dandd")
+@RelationshipEntity(type = "cooperate_dandd")
 public class Cooperate_dandd implements Serializable {
     @Id
     @GeneratedValue

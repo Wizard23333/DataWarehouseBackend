@@ -20,5 +20,9 @@ public class Actor implements Serializable {
     private Long id;
     @Property
     private String name;
+//
+//    public Actor(){
+//
+//    }
 
 }

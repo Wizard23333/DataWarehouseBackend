@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.*;
 
 import java.io.Serializable;
+import java.util.Map;
 
 
 @Data
 @NoArgsConstructor
-@RelationshipEntity(type = "Cooperate_aanda")
+@RelationshipEntity(type = "cooperate_aanda")
 public class Cooperate_aanda implements Serializable {
     @Id
     @GeneratedValue
@@ -25,11 +26,21 @@ public class Cooperate_aanda implements Serializable {
     private Integer num;
 
     @StartNode
-    private Actor actorstart;
+    private Actor startnode;
 
     @EndNode
-    private Actor actorend;
+    private Actor endnode;
 
+//    public Cooperate_aanda() {
+//    }
+//
+//    public Cooperate_aanda(Actor startNode,Actor endNode,String name,
+//                        Integer num){
+//        this.actorstart = startNode;
+//        this.actorend = endNode;
+//        this.name = name;
+//        this.num = num;
+//    }
 //    public Integer getNum() {
 //        return num;
 //    }
