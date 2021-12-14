@@ -40,7 +40,7 @@ class DataWarehouseBackendApplicationTests {
 //        System.out.println("getValue="+alvin_alexis.keySet());
 //        Map<String, String> gettop = cooperate_aandaRepository.gettop();
 //        System.out.println(cooperate_aandaRepository.gettop().toString());
-        System.out.println("dsg");
+//        System.out.println("dsg");
 
 
     }
