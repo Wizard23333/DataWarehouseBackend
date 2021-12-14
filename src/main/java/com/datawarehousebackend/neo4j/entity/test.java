@@ -1,6 +1,5 @@
 package com.datawarehousebackend.neo4j.entity;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.*;
@@ -9,8 +8,8 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@RelationshipEntity(type = "cooperate_danda")
-public class Cooperate_danda implements Serializable {
+@RelationshipEntity(type = "test")
+public class test implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
@@ -22,8 +21,9 @@ public class Cooperate_danda implements Serializable {
     private Integer num;
 
     @StartNode
-    private Director directorstart;
+    private Actor startnode;
 
     @EndNode
-    private Actor actorend;
+    private Actor endnode;
+
 }
