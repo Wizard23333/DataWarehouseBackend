@@ -30,11 +30,18 @@ public class MiscController {
         return new ResponseEntity<>(divStyleEntityRepository.findByStyleName(styleName), HttpStatus.OK);
     }
 
-    @Operation(summary = "查询前一百条类型的结果")
+    @Operation(summary = "查询前一百条类型和数量的结果")
     @GetMapping("top100-style-movie-num")
     public ResponseEntity<Object> getTop100StyleMovieNum() {
         return new ResponseEntity<>(divStyleEntityRepository.findTop100ByOrderByStyleNumDesc(), HttpStatus.OK);
     }
+
+    @Operation(summary = "imbd一百条的榜单")
+    @GetMapping("top100-imdb")
+    public ResponseEntity<Object> getTop100ImdbRankList() {
+        return new ResponseEntity<>(factMovieRepository.findTop100ByOrderByImdbScoreDesc(), HttpStatus.OK);
+    }
+
 
     @Operation(summary = "查询大于等于该分数的电影数量")
     @GetMapping("movie-num-more-than-score/{score}")

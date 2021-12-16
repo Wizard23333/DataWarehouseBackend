@@ -29,6 +29,8 @@ public interface FactMovieRepository extends JpaRepository<FactMovieEntity, Stri
     // 通过电影名模糊查询
     List<FactMovieEntity> findAllByTitleContaining(String title);
 
+    List<FactMovieEntity> findTop100ByOrderByImdbScoreDesc();
+
     @Query("select count(asin) from FactMovieEntity where imdbScore >= :score")
     Integer findMovieNumByMoreThanScore(@Param("score") Double score);
 
