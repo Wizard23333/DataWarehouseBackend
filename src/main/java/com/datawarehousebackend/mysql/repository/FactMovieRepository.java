@@ -31,6 +31,8 @@ public interface FactMovieRepository extends JpaRepository<FactMovieEntity, Stri
 
     List<FactMovieEntity> findTop100ByOrderByImdbScoreDesc();
 
+    List<FactMovieEntity> findByMovieSeriesId(Integer movieSeriesId);
+
     @Query("select count(asin) from FactMovieEntity where imdbScore >= :score")
     Integer findMovieNumByMoreThanScore(@Param("score") Double score);
 
