@@ -37,7 +37,6 @@ public class AandaController {
     TimeRepository timeRepository;
 
 
-
     @Operation(summary = "演员和演员合作")
     @GetMapping("aanda")
     public ResponseEntity<Object> getTopaanda() {
@@ -47,16 +46,16 @@ public class AandaController {
         Integer count = -1;
         for (Map<String, Object> map : test) {
             count = count + 1;
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             if (count % 2 == 0) {
                 result.add(temp);
             }
-            if(count>=100){
+            if (count >= 100) {
                 break;
             }
         }
@@ -72,17 +71,17 @@ public class AandaController {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             count = count + 1;
 
             result.add(temp);
 
-            if(count>=50){
+            if (count >= 50) {
                 break;
             }
         }
@@ -99,15 +98,15 @@ public class AandaController {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             count = count + 1;
-                result.add(temp);
-            if(count>=50){
+            result.add(temp);
+            if (count >= 50) {
                 break;
             }
         }
@@ -124,17 +123,17 @@ public class AandaController {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             count = count + 1;
             if (count % 2 == 0) {
                 result.add(temp);
             }
-            if(count>=100){
+            if (count >= 100) {
                 break;
             }
         }
@@ -142,31 +141,34 @@ public class AandaController {
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
+
     @Operation(summary = "通过年份查询")
     @GetMapping("year")
-    public ResponseEntity<Object> getTopyear(@Param("year") String yearid){
+    public ResponseEntity<Object> getTopyear(@Param("year") String yearid) {
         List<Map<String, Object>> test = timeRepository.findTopByyear("test");
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
-            count = count + 1;
+
             String str = temp.get("bname[2]").toString();
             String strname = temp.get("aname").toString();
-            if(str.equals(yearid)){
-                List<String > topByyear1 = timeRepository.findTopByyear1(strname);
-                temp.put("dir",topByyear1);
-                List<String > topByyear2 = timeRepository.findTopByyear2(strname);
-                temp.put("act",topByyear2);
-                List<String > topByyear3 = timeRepository.findTopByyear3(strname);
-                temp.put("sty",topByyear3);
-                List<String > topByyear4 = timeRepository.findTopByyear4(strname);
-                temp.put("ver",topByyear4);
+            if (str.equals(yearid)) {
+                count = count + 1;
+                System.out.println(count);
+                List<String> topByyear1 = timeRepository.findTopByyear1(strname);
+                temp.put("dir", topByyear1);
+                List<String> topByyear2 = timeRepository.findTopByyear2(strname);
+                temp.put("act", topByyear2);
+                List<String> topByyear3 = timeRepository.findTopByyear3(strname);
+                temp.put("sty", topByyear3);
+                List<String> topByyear4 = timeRepository.findTopByyear4(strname);
+                temp.put("ver", topByyear4);
                 result.add(temp);
             }
 
@@ -176,30 +178,67 @@ public class AandaController {
 
     @Operation(summary = "通过年份月份查询")
     @GetMapping("year_month")
-    public ResponseEntity<Object> getTopyearmonth(@Param("year") String yearid,@Param("month") String monthid){
+    public ResponseEntity<Object> getTopyearmonth(@Param("year") String yearid, @Param("month") String monthid) {
+        String monthstr = null;
+        if (monthid.equals("1")) {
+            monthstr = "January";
+        }
+        if (monthid.equals("2")) {
+            monthstr = "February";
+        }
+        if (monthid.equals("3")) {
+            monthstr = "March";
+        }
+        if (monthid.equals("4")) {
+            monthstr = "April";
+        }
+        if (monthid.equals("5")) {
+            monthstr = "May";
+        }
+        if (monthid.equals("6")) {
+            monthstr = "June";
+        }
+        if (monthid.equals("7")) {
+            monthstr = "July";
+        }
+        if (monthid.equals("8")) {
+            monthstr = "August";
+        }
+        if (monthid.equals("9")) {
+            monthstr = "September";
+        }
+        if (monthid.equals("10")) {
+            monthstr = "October";
+        }
+        if (monthid.equals("11")) {
+            monthstr = "November";
+        }
+        if (monthid.equals("12")) {
+            monthstr = "December";
+        }
         List<Map<String, Object>> test = timeRepository.findTopByyear("test");
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             count = count + 1;
             String str = temp.get("bname[2]").toString();
             String str1 = temp.get("bname[0]").toString();
             String strname = temp.get("aname").toString();
-            if(str.equals(yearid)&&str1.equals(monthid)){
-                List<String > topByyear1 = timeRepository.findTopByyear1(strname);
-                temp.put("dir",topByyear1);
-                List<String > topByyear2 = timeRepository.findTopByyear2(strname);
-                temp.put("act",topByyear2);
-                List<String > topByyear3 = timeRepository.findTopByyear3(strname);
-                temp.put("sty",topByyear3);
-                List<String > topByyear4 = timeRepository.findTopByyear4(strname);
-                temp.put("ver",topByyear4);
+            if (str.equals(yearid) && str1.equals(monthstr)) {
+                List<String> topByyear1 = timeRepository.findTopByyear1(strname);
+                temp.put("dir", topByyear1);
+                List<String> topByyear2 = timeRepository.findTopByyear2(strname);
+                temp.put("act", topByyear2);
+                List<String> topByyear3 = timeRepository.findTopByyear3(strname);
+                temp.put("sty", topByyear3);
+                List<String> topByyear4 = timeRepository.findTopByyear4(strname);
+                temp.put("ver", topByyear4);
                 result.add(temp);
             }
 
@@ -209,15 +248,52 @@ public class AandaController {
 
     @Operation(summary = "通过年份月份日查询")
     @GetMapping("year_month_day")
-    public ResponseEntity<Object> getTopyearmonthday(@Param("year") String yearid,@Param("month") String monthid,@Param("year") String dayid){
+    public ResponseEntity<Object> getTopyearmonthday(@Param("year") String yearid, @Param("month") String monthid, @Param("year") String dayid) {
+        String monthstr = null;
+        if (monthid.equals("1")) {
+            monthstr = "January";
+        }
+        if (monthid.equals("2")) {
+            monthstr = "February";
+        }
+        if (monthid.equals("3")) {
+            monthstr = "March";
+        }
+        if (monthid.equals("4")) {
+            monthstr = "April";
+        }
+        if (monthid.equals("5")) {
+            monthstr = "May";
+        }
+        if (monthid.equals("6")) {
+            monthstr = "June";
+        }
+        if (monthid.equals("7")) {
+            monthstr = "July";
+        }
+        if (monthid.equals("8")) {
+            monthstr = "August";
+        }
+        if (monthid.equals("9")) {
+            monthstr = "September";
+        }
+        if (monthid.equals("10")) {
+            monthstr = "October";
+        }
+        if (monthid.equals("11")) {
+            monthstr = "November";
+        }
+        if (monthid.equals("12")) {
+            monthstr = "December";
+        }
         List<Map<String, Object>> test = timeRepository.findTopByyear("test");
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer count = -1;
         for (Map<String, Object> map : test) {
-            Map<String, Object> temp=new HashMap<String, Object>();
-            for(String key:map.keySet()){
-                String tempkey=key.replace(".","");
-                String tempvalue=map.get(key).toString();
+            Map<String, Object> temp = new HashMap<String, Object>();
+            for (String key : map.keySet()) {
+                String tempkey = key.replace(".", "");
+                String tempvalue = map.get(key).toString();
                 temp.put(tempkey, tempvalue);
             }
             count = count + 1;
@@ -225,15 +301,15 @@ public class AandaController {
             String str1 = temp.get("bname[0]").toString();
             String str2 = temp.get("bname[1]").toString();
             String strname = temp.get("aname").toString();
-            if(str.equals(yearid)&&str1.equals(monthid)&&str2.equals(dayid)){
-                List<String > topByyear1 = timeRepository.findTopByyear1(strname);
-                temp.put("dir",topByyear1);
-                List<String > topByyear2 = timeRepository.findTopByyear2(strname);
-                temp.put("act",topByyear2);
-                List<String > topByyear3 = timeRepository.findTopByyear3(strname);
-                temp.put("sty",topByyear3);
-                List<String > topByyear4 = timeRepository.findTopByyear4(strname);
-                temp.put("ver",topByyear4);
+            if (str.equals(yearid) && str1.equals(monthstr) && str2.equals(dayid)) {
+                List<String> topByyear1 = timeRepository.findTopByyear1(strname);
+                temp.put("dir", topByyear1);
+                List<String> topByyear2 = timeRepository.findTopByyear2(strname);
+                temp.put("act", topByyear2);
+                List<String> topByyear3 = timeRepository.findTopByyear3(strname);
+                temp.put("sty", topByyear3);
+                List<String> topByyear4 = timeRepository.findTopByyear4(strname);
+                temp.put("ver", topByyear4);
                 result.add(temp);
             }
 
