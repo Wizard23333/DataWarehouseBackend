@@ -1,5 +1,7 @@
 ### 访问[http://yourIP:8089/swagger-ui/](http://127.0.0.1:8089/swagger-ui/) 来查看接口文档
 
+#### 主仓库：[DataWarehouse](https://github.com/zb2313/DataWarehouse)
+
 ### 数据仓库功能接口
 
 | 函数名   | 参数                             | 返回                                                         |
